@@ -15,7 +15,7 @@ import {
   IntervalsContainer,
 } from './styles'
 import { ArrowRight } from 'phosphor-react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { getWeekDays } from '@/utils/get-week-days'
 
@@ -26,6 +26,7 @@ export default function TimeIntervals() {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm({
     defaultValues: {
@@ -48,6 +49,8 @@ export default function TimeIntervals() {
     name: 'intervals',
   })
 
+  const intervals = watch('intervals')
+
   function handleSetTimeIntervals() {}
   return (
     <RegisterContainer>
@@ -66,7 +69,20 @@ export default function TimeIntervals() {
             return (
               <IntervalItem key={field.id}>
                 <IntervalDay>
-                  <Checkbox />
+                  <Controller
+                    name={`intervals.${index}.enabled`}
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <Checkbox
+                          onCheckedChange={(checked) => {
+                            field.onChange(checked === true)
+                          }}
+                          checked={field.value}
+                        />
+                      )
+                    }}
+                  />
                   <Text>{weekDays[field.weekday]}</Text>
                 </IntervalDay>
                 <IntervalInputs>
@@ -75,11 +91,13 @@ export default function TimeIntervals() {
                     type="time"
                     step={60}
                     {...register(`intervals.${index}.startTime`)}
+                    disabled={intervals[index].enabled === false}
                   />
                   <TextInput
                     size="sm"
                     type="time"
                     {...register(`intervals.${index}.endTime`)}
+                    disabled={intervals[index].enabled === false}
                   />
                 </IntervalInputs>
               </IntervalItem>
