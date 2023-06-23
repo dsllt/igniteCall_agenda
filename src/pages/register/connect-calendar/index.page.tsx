@@ -15,6 +15,10 @@ export default function ConnectCalendar() {
   async function handleConnectCalendar() {
     await signIn('google')
   }
+
+  async function handleNavigateToNextStep() {
+    await router.push('/register/time-intervals')
+  }
   return (
     <RegisterContainer>
       <Header>
@@ -54,7 +58,12 @@ export default function ConnectCalendar() {
           </AuthError>
         )}
 
-        <Button type="submit" size={'md'} disabled={!isSignedIn}>
+        <Button
+          type="submit"
+          size={'md'}
+          disabled={!isSignedIn}
+          onClick={handleNavigateToNextStep}
+        >
           {' '}
           Próximo passo <ArrowRight />
         </Button>
