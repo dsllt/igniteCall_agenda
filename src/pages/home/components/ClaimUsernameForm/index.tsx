@@ -34,18 +34,6 @@ export function ClaimUsernameForm() {
     await router.push(`/register?username=${username}`)
   }
 
-  function handleUsernameError() {
-    if (errors.username) {
-      return (
-        <Text size={'sm'} css={{ color: 'red' }}>
-          {errors.username.message}
-        </Text>
-      )
-    } else {
-      return <Text size={'sm'}>Digite o nome do usuário desejado</Text>
-    }
-  }
-
   return (
     <>
       <Form as="form" onSubmit={handleSubmit(handleClaimUsername)}>
@@ -61,7 +49,11 @@ export function ClaimUsernameForm() {
         </Button>
       </Form>
       <FormAnnotation>
-        <Text size={'sm'}>{handleUsernameError()}</Text>
+        <Text size="sm">
+          {errors.username
+            ? errors.username.message
+            : 'Digite o nome do usuário desejado'}
+        </Text>
       </FormAnnotation>
     </>
   )
