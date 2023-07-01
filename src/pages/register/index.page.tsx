@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { api } from '@/lib/axios'
 import { AxiosError } from 'axios'
+import { NextSeo } from 'next-seo'
 
 const registerFormSchema = z.object({
   username: z
@@ -65,43 +66,46 @@ export default function Register() {
   }
 
   return (
-    <RegisterContainer>
-      <Header>
-        <Heading size={'2xl'}>Bem-vindo ao Ignite Call!</Heading>
-        <Text size={'md'}>
-          Precisamos de algumas informações para criar seu perfil! Ah, você pode
-          editar essas informações depois.
-        </Text>
-        <MultiStep currentStep={1} size={4} />
-      </Header>
-      <RegisterForm as={'form'} onSubmit={handleSubmit(handleRegister)}>
-        <label>
-          <Text size={'sm'}>Nome de usuário</Text>
-          <TextInput
-            prefix="cal.com/"
-            placeholder="seu-usuario"
-            {...register('username')}
-          />
-          {errors.username && (
-            <FormErrorMessage size={'sm'}>
-              {errors.username.message}
-            </FormErrorMessage>
-          )}
-        </label>
-        <label>
-          <Text size={'sm'}>Nome completo</Text>
-          <TextInput placeholder="Digite seu nome" {...register('name')} />
-          {errors.name && (
-            <FormErrorMessage size={'sm'}>
-              {errors.name.message}
-            </FormErrorMessage>
-          )}
-        </label>
-        <Button type="submit" size={'md'} disabled={isSubmitting}>
-          {' '}
-          Próximo passo <ArrowRight />
-        </Button>
-      </RegisterForm>
-    </RegisterContainer>
+    <>
+      <NextSeo title="Crie uma conta | Ignite Call" />
+      <RegisterContainer>
+        <Header>
+          <Heading size={'2xl'}>Bem-vindo ao Ignite Call!</Heading>
+          <Text size={'md'}>
+            Precisamos de algumas informações para criar seu perfil! Ah, você
+            pode editar essas informações depois.
+          </Text>
+          <MultiStep currentStep={1} size={4} />
+        </Header>
+        <RegisterForm as={'form'} onSubmit={handleSubmit(handleRegister)}>
+          <label>
+            <Text size={'sm'}>Nome de usuário</Text>
+            <TextInput
+              prefix="cal.com/"
+              placeholder="seu-usuario"
+              {...register('username')}
+            />
+            {errors.username && (
+              <FormErrorMessage size={'sm'}>
+                {errors.username.message}
+              </FormErrorMessage>
+            )}
+          </label>
+          <label>
+            <Text size={'sm'}>Nome completo</Text>
+            <TextInput placeholder="Digite seu nome" {...register('name')} />
+            {errors.name && (
+              <FormErrorMessage size={'sm'}>
+                {errors.name.message}
+              </FormErrorMessage>
+            )}
+          </label>
+          <Button type="submit" size={'md'} disabled={isSubmitting}>
+            {' '}
+            Próximo passo <ArrowRight />
+          </Button>
+        </RegisterForm>
+      </RegisterContainer>
+    </>
   )
 }
